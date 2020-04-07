@@ -1,5 +1,5 @@
 Class {
-	#name : #APIServer,
+	#name : #BzAPIServer,
 	#superclass : #Object,
 	#instVars : [
 		'teapot',
@@ -10,19 +10,19 @@ Class {
 }
 
 { #category : #'instance creation' }
-APIServer class >> start [
+BzAPIServer class >> start [
 	^ self new
 		start
 ]
 
 { #category : #registering }
-APIServer class >> stopAll [
+BzAPIServer class >> stopAll [
 	self allInstancesDo: #stop.
 	Teapot stopAll
 ]
 
 { #category : #private }
-APIServer >> collectRoutes [
+BzAPIServer >> collectRoutes [
 	controllers := APIController allSubclasses
 		collect: [ :each | 
 			each new
@@ -37,7 +37,7 @@ APIServer >> collectRoutes [
 ]
 
 { #category : #actions }
-APIServer >> start [
+BzAPIServer >> start [
 	self class stopAll.
 	teapot := Teapot
 		configure:
@@ -49,7 +49,7 @@ APIServer >> start [
 ]
 
 { #category : #actions }
-APIServer >> stop [
+BzAPIServer >> stop [
 	teapot ifNil: [ ^ self ].
 	teapot
 		removeAllDynamicRoutes;
@@ -57,6 +57,6 @@ APIServer >> stop [
 ]
 
 { #category : #api }
-APIServer >> welcomeFor: req [
+BzAPIServer >> welcomeFor: req [
 	^ 'Welcome'
 ]
