@@ -6,5 +6,5 @@ Class {
 
 { #category : #accessing }
 BaseModel class >> neoJsonMapping: mapper [
-	mapper for: self do: [ :mapping | mapping mapAllInstVars ]
+	mapper for: self do: [ :mapping | mapping mapInstVars; mapAccessor: #voyageId to: #id ]
 ]
