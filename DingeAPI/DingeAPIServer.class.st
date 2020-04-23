@@ -48,13 +48,7 @@ DingeAPIServer >> start [
 			{(#defaultOutput -> #json).
 			(#port -> ServerSettings serverPort).
 			(#debugMode -> true)}.
-	teapot
-		before:
-			'/api/*'
-				-> [ :req | 
-					[ JWTWrapper decode: req authorization ]
-						on: Error
-						do: [ req abort: (TeaResponse code: 401) ] ].
+	teapot before: '/api/*' -> [ :req | Authenticator checkRequest: req ].
 	self collectRoutes.
 	teapot start
 ]
@@ -65,9 +59,4 @@ DingeAPIServer >> stop [
 	teapot
 		removeAllDynamicRoutes;
 		stop
-]
-
-{ #category : #api }
-DingeAPIServer >> welcomeFor: req [
-	^ 'Welcome'
 ]

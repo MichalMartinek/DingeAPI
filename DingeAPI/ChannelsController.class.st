@@ -7,5 +7,10 @@ Class {
 { #category : #lessons }
 ChannelsController >> getAll [
 	<apicontroller>
-	teapot GET: '/api/channels' -> [ :req | Channel selectAll ]
+	teapot GET: '/api/channels' -> [ :req | self getAll: req ]
+]
+
+{ #category : #lessons }
+ChannelsController >> getAll: req [
+	^ Channel selectAll 
 ]
