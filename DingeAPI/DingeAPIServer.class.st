@@ -27,7 +27,6 @@ DingeAPIServer >> collectRoutes [
 	controllers := APIController allSubclasses
 		collect: [ :each | 
 			each new
-				session: session;
 				teapot: teapot;
 				yourself ].
 	controllers
@@ -40,15 +39,22 @@ DingeAPIServer >> collectRoutes [
 { #category : #actions }
 DingeAPIServer >> start [
 	self class stopAll.
-	repository := VOMongoRepository 
-		host: 'localhost' 
-		database: 'pharo'.
+	repository := VOMongoRepository
+		host: ServerSettings databaseHost
+		database: ServerSettings databaseCollection.
 	repository enableSingleton.
 	teapot := Teapot
 		configure:
 			{(#defaultOutput -> #json).
-			(#port -> 8080).
+			(#port -> ServerSettings serverPort).
 			(#debugMode -> true)}.
+	teapot
+		before:
+			'/api/*'
+				-> [ :req | 
+					[ JWTWrapper decode: req authorization ]
+						on: Error
+						do: [ req abort: (TeaResponse code: 401) ] ].
 	self collectRoutes.
 	teapot start
 ]
