@@ -5,7 +5,7 @@ Class {
 }
 
 { #category : #lessons }
-HealthzController >> welcome [
-	<mopcontroller>
-	teapot GET: '/' -> [ :req | 'Healthz!' ]
+HealthzController >> getStatus [
+	<apicontroller>
+	teapot GET: '/healthz' -> [ :req | 'Healthz! API is running.' ]
 ]

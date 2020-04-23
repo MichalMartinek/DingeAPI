@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'teapot',
 		'session',
-		'controllers'
+		'controllers',
+		'repository'
 	],
 	#category : #'BzAPI-server'
 }
@@ -31,7 +32,7 @@ BzAPIServer >> collectRoutes [
 				yourself ].
 	controllers
 		do: [ :eachController | 
-			(Pragma allNamed: #mopcontroller in: eachController class)
+			(Pragma allNamed: #apicontroller in: eachController class)
 				do:
 					[ :eachPragma | (Message selector: eachPragma method selector) sendTo: eachController ] ]
 ]
@@ -39,6 +40,10 @@ BzAPIServer >> collectRoutes [
 { #category : #actions }
 BzAPIServer >> start [
 	self class stopAll.
+	repository := VOMongoRepository 
+		host: 'localhost' 
+		database: 'pharo'.
+	repository enableSingleton.
 	teapot := Teapot
 		configure:
 			{(#defaultOutput -> #json).
