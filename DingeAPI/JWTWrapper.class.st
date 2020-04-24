@@ -4,7 +4,7 @@ Class {
 	#instVars : [
 		'jws'
 	],
-	#category : #'DingeAPI-server'
+	#category : #'DingeAPI-utils'
 }
 
 { #category : #converting }

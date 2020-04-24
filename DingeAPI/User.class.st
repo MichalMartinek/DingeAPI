@@ -20,8 +20,10 @@ User >> email [
 ]
 
 { #category : #accessing }
-User >> email: anObject [
-	email := anObject
+User >> email: anEmail [
+	(anEmail matchesRegex: '[A-z]+@[A-z]+\.[A-z]+')
+		ifFalse: [ self error: 'Invalid email' ].
+	email := anEmail
 ]
 
 { #category : #accessing }
