@@ -3,7 +3,8 @@ Class {
 	#superclass : #BaseModel,
 	#instVars : [
 		'name',
-		'createdAt'
+		'createdAt',
+		'updatedAt'
 	],
 	#category : #'DingeAPI-models'
 }
@@ -31,4 +32,14 @@ Channel >> name [
 { #category : #accessing }
 Channel >> name: anObject [
 	name := anObject
+]
+
+{ #category : #accessing }
+Channel >> updatedAt [
+	^ updatedAt
+]
+
+{ #category : #accessing }
+Channel >> updatedAt: anObject [
+	updatedAt := anObject
 ]

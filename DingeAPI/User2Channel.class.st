@@ -3,10 +3,21 @@ Class {
 	#superclass : #BaseModel,
 	#instVars : [
 		'channel',
+		'access',
 		'user'
 	],
 	#category : #'DingeAPI-models'
 }
+
+{ #category : #accessing }
+User2Channel >> access [
+	^ access
+]
+
+{ #category : #accessing }
+User2Channel >> access: anObject [
+	access := anObject
+]
 
 { #category : #accessing }
 User2Channel >> channel [

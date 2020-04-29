@@ -7,7 +7,7 @@ Class {
 { #category : #'as yet unclassified' }
 AuthController >> login [
 	<apicontroller>
-	teapot GET: '/auth' -> [ :req | self login: req ]
+	teapot POST: '/auth' -> [ :req | self login: req ]
 ]
 
 { #category : #accessing }
@@ -35,7 +35,7 @@ AuthController >> login: req [
 { #category : #'as yet unclassified' }
 AuthController >> register [
 	<apicontroller>
-	teapot GET: '/register' -> [ :req | self register: req ]
+	teapot POST: '/register' -> [ :req | self register: req ]
 ]
 
 { #category : #accessing }
@@ -49,7 +49,7 @@ AuthController >> register: req [
 		email: (parsedBody at: #email);
 		password: hashedPassword;
 		name: (parsedBody at: #name).
-	UserService saveUser: user ]
+	UserService saveAsNew: user ]
 		on: Error
 		do: [ :err | 
 			req

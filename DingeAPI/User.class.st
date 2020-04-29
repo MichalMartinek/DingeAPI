@@ -4,7 +4,8 @@ Class {
 	#instVars : [
 		'name',
 		'password',
-		'email'
+		'email',
+		'channels'
 	],
 	#category : #'DingeAPI-models'
 }
@@ -12,6 +13,26 @@ Class {
 { #category : #testing }
 User class >> isVoyageRoot [ 
 	^ true
+]
+
+{ #category : #testing }
+User class >> neoJsonMapping: mapper [
+	mapper for: self do: [ :mapping | mapping mapInstVars: #(#name #email); mapAccessor: #voyageId to: #id ]
+]
+
+{ #category : #accessing }
+User >> = aUser [
+	^ self voyageId = aUser voyageId 
+]
+
+{ #category : #accessing }
+User >> addChannel: aChannel [ 
+   self channels add: aChannel
+]
+
+{ #category : #accessing }
+User >> channels [
+   ^ channels ifNil: [ channels := Set new ]
 ]
 
 { #category : #accessing }

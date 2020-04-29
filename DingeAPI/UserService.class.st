@@ -16,7 +16,12 @@ UserService class >> findUserByEmail: anEmail andPassword: aPassword [
 ]
 
 { #category : #'as yet unclassified' }
-UserService class >> saveUser: anUser [
+UserService class >> save: anUser [
+	anUser save
+]
+
+{ #category : #'as yet unclassified' }
+UserService class >> saveAsNew: anUser [
 	| existingUser |
 	existingUser := self findUserByEmail: anUser email.
 	existingUser ifNotNil: [self error: 'User with this email already exists.'].

@@ -4,11 +4,16 @@ Class {
 	#instVars : [
 		'channel',
 		'field',
-		'value',
+		'val',
 		'createdAt'
 	],
 	#category : #'DingeAPI-models'
 }
+
+{ #category : #testing }
+Record class >> isVoyageRoot [ 
+	^ true
+]
 
 { #category : #accessing }
 Record >> channel [
@@ -41,11 +46,11 @@ Record >> field: anObject [
 ]
 
 { #category : #accessing }
-Record >> value1 [
-	^ value
+Record >> val [
+	^ val
 ]
 
 { #category : #accessing }
-Record >> value: anObject [
-	value := anObject
+Record >> val: anObject [
+	val := anObject
 ]
