@@ -14,7 +14,7 @@ RecordsController >> create [
 RecordsController >> create: req [
 	| parsedBody channel user oid record |
 	parsedBody := req parseJSONBody.
-	[ user := req getUser.
+	[ user := Authenticator getUser: req.
 	oid := OID value: (req at: #id) asNumber.
 	channel := ChannelService findById: oid.
 	channel
@@ -23,9 +23,9 @@ RecordsController >> create: req [
 	record := Record new
 		field: (parsedBody at: #field);
 		val: (parsedBody at: #value);
-		channel: channel voyageId value printString;
 		createdAt: DateAndTime now.
-	RecordService saveRecord: record ]
+	channel addRecord: record.
+	ChannelService saveChannel: channel ]
 		on: Error
 		do: [ :err | 
 			req
@@ -34,7 +34,7 @@ RecordsController >> create: req [
 						code: 400;
 						body: err messageText).
 			^ nil ].
-	^ channel
+	^ channel records
 ]
 
 { #category : #lessons }
@@ -45,13 +45,12 @@ RecordsController >> listAll [
 
 { #category : #lessons }
 RecordsController >> listAll: req [
-	| parsedBody channel user oid channelId |
-	user := req getUser.
+	| channel user oid |
+	user := Authenticator getUser: req.
 	oid := OID value: (req at: #id) asNumber.
 	channel := ChannelService findById: oid.
 	channel
 		ifNil: [ req abort: TeaResponse notFound.
 			^ nil ].
-	channelId := channel voyageId value printString.
-	^ RecordService findByChannelId: channelId
+	^ channel records
 ]

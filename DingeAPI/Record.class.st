@@ -2,28 +2,12 @@ Class {
 	#name : #Record,
 	#superclass : #BaseModel,
 	#instVars : [
-		'channel',
 		'field',
 		'val',
 		'createdAt'
 	],
 	#category : #'DingeAPI-models'
 }
-
-{ #category : #testing }
-Record class >> isVoyageRoot [ 
-	^ true
-]
-
-{ #category : #accessing }
-Record >> channel [
-	^ channel
-]
-
-{ #category : #accessing }
-Record >> channel: anObject [
-	channel := anObject
-]
 
 { #category : #accessing }
 Record >> createdAt [

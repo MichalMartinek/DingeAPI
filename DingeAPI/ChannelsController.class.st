@@ -14,12 +14,15 @@ ChannelsController >> create [
 ChannelsController >> create: req [
 	| parsedBody channel user |
 	parsedBody := req parseJSONBody.
-	[ user := req getUser.
+	[ user := Authenticator getUser: req.
 	channel := Channel new
 		name: (parsedBody at: #name);
 		createdAt: DateAndTime now;
-		updatedAt: DateAndTime now.
-	ChannelService saveChannel: channel ]
+		updatedAt: DateAndTime now;
+		addUser: user.
+	ChannelService saveChannel: channel.
+	user addChannel: channel.
+	UserService save: user. ]
 		on: Error
 		do: [ :err | 
 			req
@@ -41,7 +44,7 @@ ChannelsController >> edit [
 ChannelsController >> edit: req [
 	| parsedBody channel user oid |
 	parsedBody := req parseJSONBody.
-	[ user := req getUser.
+	[ user := Authenticator getUser: req.
 	oid := OID value: (req at: #id) asNumber.
 	channel := ChannelService findById: oid.
 	channel

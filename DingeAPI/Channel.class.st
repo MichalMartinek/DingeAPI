@@ -4,7 +4,9 @@ Class {
 	#instVars : [
 		'name',
 		'createdAt',
-		'updatedAt'
+		'updatedAt',
+		'users',
+		'records'
 	],
 	#category : #'DingeAPI-models'
 }
@@ -12,6 +14,16 @@ Class {
 { #category : #testing }
 Channel class >> isVoyageRoot [ 
 	^ true
+]
+
+{ #category : #accessing }
+Channel >> addRecord: aRecord [
+	self records add: aRecord
+]
+
+{ #category : #accessing }
+Channel >> addUser: aUser [
+   self users add: aUser
 ]
 
 { #category : #accessing }
@@ -35,6 +47,11 @@ Channel >> name: anObject [
 ]
 
 { #category : #accessing }
+Channel >> records [
+	^ records ifNil: [ records := LinkedList new ]
+]
+
+{ #category : #accessing }
 Channel >> updatedAt [
 	^ updatedAt
 ]
@@ -42,4 +59,9 @@ Channel >> updatedAt [
 { #category : #accessing }
 Channel >> updatedAt: anObject [
 	updatedAt := anObject
+]
+
+{ #category : #accessing }
+Channel >> users [
+   ^ users ifNil: [ users := Set new ]
 ]

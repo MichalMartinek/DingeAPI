@@ -17,7 +17,7 @@ User class >> isVoyageRoot [
 
 { #category : #testing }
 User class >> neoJsonMapping: mapper [
-	mapper for: self do: [ :mapping | mapping mapInstVars: #(#name #email); mapAccessor: #voyageId to: #id ]
+	mapper for: self do: [ :mapping | mapping mapInstVars: #(#name #email #channels); mapAccessor: #voyageId to: #id ]
 ]
 
 { #category : #accessing }

@@ -5,6 +5,17 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+AuthController >> getCurrentUser [
+	<apicontroller>
+	teapot GET: '/api/user' -> [ :req | self getCurrentUser: req ]
+]
+
+{ #category : #'as yet unclassified' }
+AuthController >> getCurrentUser: req [
+	^ Authenticator getUser: req
+]
+
+{ #category : #'as yet unclassified' }
 AuthController >> login [
 	<apicontroller>
 	teapot POST: '/auth' -> [ :req | self login: req ]
