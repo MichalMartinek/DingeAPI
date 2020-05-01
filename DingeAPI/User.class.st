@@ -21,11 +21,6 @@ User class >> neoJsonMapping: mapper [
 ]
 
 { #category : #accessing }
-User >> = aUser [
-	^ self voyageId = aUser voyageId 
-]
-
-{ #category : #accessing }
 User >> addChannel: aChannel [ 
    self channels add: aChannel
 ]
