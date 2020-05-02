@@ -25,7 +25,7 @@ RecordsController >> create: req [
 		val: (parsedBody at: #value);
 		createdAt: DateAndTime now.
 	channel addRecord: record.
-	ChannelService saveChannel: channel ]
+	ChannelService save: channel ]
 		on: Error
 		do: [ :err | 
 			req

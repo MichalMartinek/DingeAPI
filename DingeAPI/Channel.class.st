@@ -18,7 +18,12 @@ Channel class >> isVoyageRoot [
 
 { #category : #testing }
 Channel class >> neoJsonMapping: mapper [
-	mapper for: self do: [ :mapping | mapping mapInstVars: #(#name #createdAt #updatedAt #records); mapAccessor: #voyageId to: #id ]
+	mapper
+		for: self
+		do: [ :mapping | 
+			mapping
+				mapInstVars: #(#name #createdAt #updatedAt #records);
+				mapAccessor: #voyageId to: #id ]
 ]
 
 { #category : #accessing }

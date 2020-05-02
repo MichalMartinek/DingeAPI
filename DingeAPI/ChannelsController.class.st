@@ -20,7 +20,7 @@ ChannelsController >> create: req [
 		createdAt: DateAndTime now;
 		updatedAt: DateAndTime now;
 		addUser: user.
-	ChannelService saveChannel: channel.
+	ChannelService save: channel.
 	user addChannel: channel.
 	UserService save: user. ]
 		on: Error
@@ -53,7 +53,7 @@ ChannelsController >> delete: req [
 		do: [ :u | 
 			u removeChannel: channel.
 			UserService save: u ].
-	ChannelService removeChannel: channel ]
+	ChannelService remove: channel ]
 		on: Error
 		do: [ :err | 
 			req
@@ -84,7 +84,7 @@ ChannelsController >> edit: req [
 	channel
 		name: (parsedBody at: #name);
 		updatedAt: DateAndTime now.
-	ChannelService saveChannel: channel ]
+	ChannelService save: channel ]
 		on: Error
 		do: [ :err | 
 			req

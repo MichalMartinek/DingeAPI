@@ -5,7 +5,8 @@ Class {
 		'name',
 		'password',
 		'email',
-		'channels'
+		'channels',
+		'devices'
 	],
 	#category : #'DingeAPI-models'
 }
@@ -17,7 +18,12 @@ User class >> isVoyageRoot [
 
 { #category : #testing }
 User class >> neoJsonMapping: mapper [
-	mapper for: self do: [ :mapping | mapping mapInstVars: #(#name #email #channels); mapAccessor: #voyageId to: #id ]
+	mapper
+		for: self
+		do: [ :mapping | 
+			mapping
+				mapInstVars: #(#name #email #devices #channels);
+				mapAccessor: #voyageId to: #id ]
 ]
 
 { #category : #accessing }
@@ -26,8 +32,18 @@ User >> addChannel: aChannel [
 ]
 
 { #category : #accessing }
+User >> addDevice: aDevice [ 
+   self devices add: aDevice
+]
+
+{ #category : #accessing }
 User >> channels [
    ^ channels ifNil: [ channels := Set new ]
+]
+
+{ #category : #accessing }
+User >> devices [
+   ^ devices ifNil: [ devices := Set new ]
 ]
 
 { #category : #accessing }
@@ -65,4 +81,9 @@ User >> password: anObject [
 { #category : #accessing }
 User >> removeChannel: aChannel [ 
    self channels remove: aChannel
+]
+
+{ #category : #accessing }
+User >> removeDevice: aDevice [ 
+   self devices remove: aDevice
 ]
