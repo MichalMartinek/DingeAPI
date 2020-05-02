@@ -10,6 +10,11 @@ ChannelService class >> findById: anId [
 ]
 
 { #category : #'as yet unclassified' }
+ChannelService class >> removeChannel: aChannel [
+	aChannel remove
+]
+
+{ #category : #'as yet unclassified' }
 ChannelService class >> saveChannel: aChannel [
 	aChannel save
 ]

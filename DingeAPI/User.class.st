@@ -61,3 +61,8 @@ User >> password [
 User >> password: anObject [
 	password := anObject
 ]
+
+{ #category : #accessing }
+User >> removeChannel: aChannel [ 
+   self channels remove: aChannel
+]
