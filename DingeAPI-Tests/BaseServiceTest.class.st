@@ -5,7 +5,8 @@ Class {
 	#name : #BaseServiceTest,
 	#superclass : #TestCase,
 	#instVars : [
-		'oldRepository'
+		'oldRepository',
+		'newRepository'
 	],
 	#category : #'DingeAPI-Tests-services'
 }
@@ -13,7 +14,11 @@ Class {
 { #category : #running }
 BaseServiceTest >> setUp [
 	oldRepository := VORepository current.
-	VORepository setRepository: VOMemoryRepository new.
+	newRepository := VOMongoRepository
+		host: ServerSettings databaseHost
+		database: 'pharoTest'.
+	"newRepository := VOMemoryRepository new."
+	VORepository setRepository: newRepository.
 ]
 
 { #category : #running }
