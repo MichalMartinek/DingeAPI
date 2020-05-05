@@ -5,6 +5,11 @@ Class {
 }
 
 { #category : #'as yet unclassified' }
+UserService class >> findById: anId [
+	^ User selectOne: {('_id' -> anId)} asDictionary
+]
+
+{ #category : #'as yet unclassified' }
 UserService class >> findUserByEmail: anEmail [
 	^ User selectOne: [ :each | each email = anEmail ]
 ]
