@@ -12,6 +12,7 @@ Class {
 
 { #category : #'instance creation' }
 DingeAPIServer class >> start [
+	<example>
 	^ self new
 		start
 ]
