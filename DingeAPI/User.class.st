@@ -53,7 +53,7 @@ User >> email [
 
 { #category : #accessing }
 User >> email: anEmail [
-	(anEmail matchesRegex: '[A-z]+@[A-z]+\.[A-z]+')
+	(anEmail matchesRegex: '[A-z0-9]+@[A-z0-9]+\.[A-z]+')
 		ifFalse: [ self error: 'Invalid email' ].
 	email := anEmail
 ]
