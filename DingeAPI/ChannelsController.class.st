@@ -95,14 +95,3 @@ ChannelsController >> edit: req [
 			^ nil ].
 	^ channel
 ]
-
-{ #category : #lessons }
-ChannelsController >> listAll [
-	<apicontroller>
-	teapot GET: '/api/channels' -> [ :req | self listAll: req ]
-]
-
-{ #category : #lessons }
-ChannelsController >> listAll: req [
-	^ Channel selectAll 
-]

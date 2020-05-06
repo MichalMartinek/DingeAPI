@@ -3,30 +3,9 @@ An AuthControllerTest is a test class for testing the behavior of AuthController
 "
 Class {
 	#name : #AuthControllerTest,
-	#superclass : #APIControllerTest,
+	#superclass : #AuthedControllerTest,
 	#category : #'DingeAPI-Tests-controllers'
 }
-
-{ #category : #tests }
-AuthControllerTest >> prepareAuthToken [
-	| registerResponse loginResponse token |
-	registerResponse := ZnClient new
-		url: self baseURL , '/register';
-		contents:
-			'{	"email": "tester1@windy.com", "name": "tester1",	"password": "tester1passw"}';
-		post;
-		response.
-	self assert: registerResponse code equals: 201.
-	loginResponse := ZnClient new
-		url: self baseURL , '/auth';
-		contents:
-			'{	"email": "tester1@windy.com",	"password": "tester1passw"}';
-		post;
-		response.
-	self assert: loginResponse code equals: 200.
-	token := loginResponse contents.
-	^ token copyFrom: 2 to: token size - 1
-]
 
 { #category : #tests }
 AuthControllerTest >> testAddDevice [
@@ -39,16 +18,7 @@ AuthControllerTest >> testAddDevice [
 		post;
 		response.
 	self assert: addDeviceResponse code equals: 200.
-	currentUserResponse := ZnClient new
-		url: self baseURL , '/api/user';
-		headerAt: 'Authorization' put: jwtToken;
-		get;
-		response.
-	self assert: currentUserResponse code equals: 200.
-	currentUser := (NeoJSONReader
-		on: currentUserResponse contents readStream)
-		propertyNamesAsSymbols: true;
-		next.
+	currentUser := self userProfile: jwtToken.
 	self
 		assert: ((currentUser at: #devices) first at: #name)
 		equals: 'ESP8266 - garden'.
@@ -59,38 +29,20 @@ AuthControllerTest >> testAddDevice [
 		post;
 		response.
 	self assert: addAnotherDeviceResponse code equals: 200.
-	currentUserResponse := ZnClient new
-		url: self baseURL , '/api/user';
-		headerAt: 'Authorization' put: jwtToken;
-		get;
-		response.
-	self assert: currentUserResponse code equals: 200.
-	currentUser := (NeoJSONReader
-		on: currentUserResponse contents readStream)
-		propertyNamesAsSymbols: true;
-		next.
+	currentUser := self userProfile: jwtToken.
 	self assert: (currentUser at: #devices) size equals: 2
 ]
 
 { #category : #tests }
 AuthControllerTest >> testGetCurrentUser [
-	| jwtToken unauthorizedUserResponse currentUserResponse currentUser |
+	| jwtToken unauthorizedUserResponse currentUser |
 	jwtToken := self prepareAuthToken.
 	unauthorizedUserResponse := ZnClient new
 		url: self baseURL , '/api/user';
 		get;
 		response.
 	self assert: unauthorizedUserResponse code equals: 401.
-	currentUserResponse := ZnClient new
-		url: self baseURL , '/api/user';
-		headerAt: 'Authorization' put: jwtToken;
-		get;
-		response.
-	self assert: currentUserResponse code equals: 200.
-	currentUser := (NeoJSONReader
-		on: currentUserResponse contents readStream)
-		propertyNamesAsSymbols: true;
-		next.
+	currentUser := self userProfile: jwtToken.
 	self assert: (currentUser at: #email) equals: 'tester1@windy.com'.
 	self assert: (currentUser at: #name) equals: 'tester1'.
 ]
@@ -145,7 +97,7 @@ AuthControllerTest >> testRegister [
 
 { #category : #tests }
 AuthControllerTest >> testRemoveDevice [
-	| jwtToken addDeviceResponse currentUserResponse currentUser removeDeviceResponse removeNonExistingDeviceResponse |
+	| jwtToken addDeviceResponse currentUser removeDeviceResponse removeNonExistingDeviceResponse |
 	jwtToken := self prepareAuthToken.
 	addDeviceResponse := ZnClient new
 		url: self baseURL , '/api/devices';
@@ -154,16 +106,7 @@ AuthControllerTest >> testRemoveDevice [
 		post;
 		response.
 	self assert: addDeviceResponse code equals: 200.
-	currentUserResponse := ZnClient new
-		url: self baseURL , '/api/user';
-		headerAt: 'Authorization' put: jwtToken;
-		get;
-		response.
-	self assert: currentUserResponse code equals: 200.
-	currentUser := (NeoJSONReader
-		on: currentUserResponse contents readStream)
-		propertyNamesAsSymbols: true;
-		next.
+	currentUser := self userProfile: jwtToken.
 	self assert: (currentUser at: #devices) size equals: 1.
 	removeDeviceResponse := ZnClient new
 		url:
@@ -179,15 +122,6 @@ AuthControllerTest >> testRemoveDevice [
 		delete;
 		response.
 	self assert: removeNonExistingDeviceResponse code equals: 400.
-	currentUserResponse := ZnClient new
-		url: self baseURL , '/api/user';
-		headerAt: 'Authorization' put: jwtToken;
-		get;
-		response.
-	self assert: currentUserResponse code equals: 200.
-	currentUser := (NeoJSONReader
-		on: currentUserResponse contents readStream)
-		propertyNamesAsSymbols: true;
-		next.
+	currentUser := self userProfile: jwtToken.
 	self assert: (currentUser at: #devices) size equals: 0
 ]
