@@ -19,6 +19,9 @@ BaseServiceTest >> setUp [
 		database: 'pharoTest'.
 	"newRepository := VOMemoryRepository new."
 	VORepository setRepository: newRepository.
+	User removeAll.
+	Device removeAll.
+	Channel removeAll
 ]
 
 { #category : #running }

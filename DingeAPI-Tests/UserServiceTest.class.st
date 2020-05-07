@@ -13,12 +13,6 @@ UserServiceTest >> createUser: name [
 ]
 
 { #category : #'as yet unclassified' }
-UserServiceTest >> tearDown [
-	super tearDown.
-	User removeAll.
-]
-
-{ #category : #'as yet unclassified' }
 UserServiceTest >> testFindById [
 	| user1 user2 |
 	user1 := self createUser: 'test'.

@@ -12,12 +12,6 @@ DeviceServiceTest >> createDevice: name [
 ]
 
 { #category : #tests }
-DeviceServiceTest >> tearDown [
-	super tearDown.
-	Device removeAll.
-]
-
-{ #category : #tests }
 DeviceServiceTest >> testFindById [
 	| device1 device2 |
 	device1 := self createDevice: 'ESP8266 - garden 1'.

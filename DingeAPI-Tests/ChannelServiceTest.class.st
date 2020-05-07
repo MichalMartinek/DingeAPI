@@ -13,12 +13,6 @@ ChannelServiceTest >> createChannel: name [
 ]
 
 { #category : #'as yet unclassified' }
-ChannelServiceTest >> tearDown [
-	super tearDown.
-	Channel removeAll.
-]
-
-{ #category : #'as yet unclassified' }
 ChannelServiceTest >> testFindById [
 	| channel1 channel2 |
 	channel1 := self createChannel:  'Smart temp 1'.
